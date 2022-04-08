@@ -9,9 +9,31 @@ new Vue({
     isFetchingData: false,
   },
   methods: {
+    handleFormValidation() {
+      if (!this.rssUrl) {
+        alert("RSS URL must be filled out");
+        return false;
+      }
+
+      if (
+        !this.rssUrl.includes("http://") &&
+        !this.rssUrl.includes("https://")
+      ) {
+        alert("RSS URL must be a valid url");
+        return false;
+      }
+
+      return true;
+    },
+
     async handleSearch() {
       try {
         this.isFetchingData = true;
+
+        if (!this.handleFormValidation()) {
+          this.isFetchingData = false;
+          return;
+        }
 
         const completUrl = `${this.baseUrl}?rss_url=${this.rssUrl}`;
         const result = await axios.get(completUrl);
