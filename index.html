@@ -17,7 +17,7 @@
     <div id="app" class="container">
       <div class="row">
         <div class="col-xl-12">
-          <h1 @click="test">RSS Feeds</h1>
+          <h1>RSS Feeds</h1>
         </div>
       </div>
 
@@ -29,6 +29,16 @@
                 type="text"
                 class="form-control"
                 placeholder="Enter RSS URL"
+                disabled
+                v-if="isFetchingData"
+              />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter RSS URL"
+                required
+                v-model.trim="rssUrl"
+                v-else
               />
             </div>
             <div class="form-group">
@@ -37,6 +47,17 @@
                 class="btn btn-primary btn-block"
                 type="button"
                 value="Search"
+                @click.prevent="handleSearch"
+                disabled
+                v-if="isFetchingData"
+              />
+              <input
+                type="submit"
+                class="btn btn-primary btn-block"
+                type="button"
+                value="Search"
+                @click.prevent="handleSearch"
+                v-else
               />
             </div>
           </form>
@@ -48,39 +69,23 @@
         <div class="col-xl-12">
           <h1>Articles</h1>
 
-          <div class="card">
-            <img
-              class="card-img-top"
-              src="https://loremflickr.com/320/140"
-              alt="Card image cap"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Article title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+          <div v-for="(item, index) in items" :key="index">
+            <div class="card">
+              <img
+                class="card-img-top"
+                :src="item.thumbnail ? item.thumbnail : altImg"
+                alt="Card image cap"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{item.title}}</h5>
+                <p class="card-text" v-html="item.description"></p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
             </div>
+
+            <hr />
           </div>
 
-          <hr />
-
-          <div class="card">
-            <img
-              class="card-img-top"
-              src="https://loremflickr.com/320/140?v2"
-              alt="Card image cap"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Article title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
           <hr />
         </div>
       </div>
@@ -94,5 +99,5 @@
   ></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-  <script src="./vueApp.js"></script>
+  <script src="./script.js"></script>
 </html>
