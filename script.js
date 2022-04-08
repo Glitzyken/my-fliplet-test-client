@@ -1,7 +1,7 @@
 new Vue({
   el: "#app",
   data: {
-    baseUrl: "https://api.rss2json.com/v1/api.json", // update this before submitting TODO:
+    baseUrl: "https://my-fliplet-test-api.herokuapp.com/api/v1/", // update this before submitting TODO:
     rssUrl: null,
     altImg:
       "https://fliplet.com/wp-content/uploads/sites/4/2018/10/white-400px.png",
@@ -35,7 +35,7 @@ new Vue({
           return;
         }
 
-        const completUrl = `${this.baseUrl}?rss_url=${this.rssUrl}`;
+        const completUrl = `${this.baseUrl}rss-to-json?rss_url=${this.rssUrl}`;
         const result = await axios.get(completUrl);
 
         const feed = result.data.feed;
